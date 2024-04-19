@@ -1,0 +1,7 @@
+{
+    "rest-client.environmentVariables": {
+        "$shared": {
+            "url": "http://localhost:5046"
+        }
+    }
+}
