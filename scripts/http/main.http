@@ -3,5 +3,5 @@ POST {{url}}/start
 Content-Type: application/json
 
 {
-    "name": "Test Task"
+    "name": "Task {{$datetime iso8601}}"
 }

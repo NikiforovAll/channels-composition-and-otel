@@ -11,15 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppHost", "src\AppHost\AppH
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceDefaults", "src\ServiceDefaults\ServiceDefaults.csproj", "{7B33AA6C-64CB-450E-BE75-5D2E74C28C86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileProcessing", "src\FileProcessing\FileProcessing.csproj", "{95D38943-8239-43BE-9365-64D3E70C1473}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{9417BE01-7906-48E8-82C3-47D961D8F1FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -34,15 +29,13 @@ Global
 		{7B33AA6C-64CB-450E-BE75-5D2E74C28C86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B33AA6C-64CB-450E-BE75-5D2E74C28C86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B33AA6C-64CB-450E-BE75-5D2E74C28C86}.Release|Any CPU.Build.0 = Release|Any CPU
-		{95D38943-8239-43BE-9365-64D3E70C1473}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{95D38943-8239-43BE-9365-64D3E70C1473}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{95D38943-8239-43BE-9365-64D3E70C1473}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{95D38943-8239-43BE-9365-64D3E70C1473}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9417BE01-7906-48E8-82C3-47D961D8F1FB} = {E0116694-B844-4466-974E-F7120ADF444C}
 		{EF515CC6-7A69-4B76-9FCF-235D90EA2385} = {E0116694-B844-4466-974E-F7120ADF444C}
 		{7B33AA6C-64CB-450E-BE75-5D2E74C28C86} = {E0116694-B844-4466-974E-F7120ADF444C}
-		{95D38943-8239-43BE-9365-64D3E70C1473} = {E0116694-B844-4466-974E-F7120ADF444C}
 	EndGlobalSection
 EndGlobal

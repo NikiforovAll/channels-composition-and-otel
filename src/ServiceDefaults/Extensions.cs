@@ -17,16 +17,14 @@ public static class Extensions
 
         builder.AddDefaultHealthChecks();
 
-        builder.Services.AddServiceDiscovery();
+        // builder.Services.AddServiceDiscovery();
 
-        builder.Services.ConfigureHttpClientDefaults(http =>
-        {
-            // Turn on resilience by default
-            http.AddStandardResilienceHandler();
+        // builder.Services.ConfigureHttpClientDefaults(http =>
+        // {
+        //     http.AddStandardResilienceHandler();
 
-            // Turn on service discovery by default
-            http.UseServiceDiscovery();
-        });
+        //     http.UseServiceDiscovery();
+        // });
 
         return builder;
     }
@@ -49,7 +47,8 @@ public static class Extensions
                     .AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
                     .AddProcessInstrumentation()
-                    .AddRuntimeInstrumentation();
+                    .AddRuntimeInstrumentation()
+                    .AddMeter("MyService.Pipelines");
             })
             .WithTracing(tracing =>
             {
