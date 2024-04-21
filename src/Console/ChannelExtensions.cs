@@ -15,9 +15,8 @@ public static class ChannelExtensions
 
     public static async IAsyncEnumerable<int> GenerateRange(Range range)
     {
-        foreach (
-            var item in Enumerable.Range(range.Start.Value, range.End.Value - range.Start.Value)
-        )
+        int count = range.End.Value - range.Start.Value + 1;
+        foreach (var item in Enumerable.Range(range.Start.Value, count))
         {
             yield return item;
             await Task.Yield();
@@ -32,7 +31,7 @@ public static class ChannelExtensions
         {
             await foreach (var item in source)
             {
-                channel.Writer.WriteAsync(item);
+                await channel.Writer.WriteAsync(item);
             }
 
             channel.Writer.Complete();
@@ -87,45 +86,49 @@ public static class ChannelExtensions
         Func<TRead, ValueTask<TOut>> transform
     )
     {
+        var bufferChannel = Channel.CreateUnbounded<TOut>();
 
-        var channel = Channel.CreateUnbounded<TOut>();
-
-        var concurrentChannel = Merge(Split(source, maxConcurrency));
+        var channel = Merge(Split(source, maxConcurrency));
 
         Task.Run(async () =>
         {
-            await foreach (var item in concurrentChannel.ReadAllAsync())
+            await foreach (var item in channel.ReadAllAsync())
             {
-                await channel.Writer.WriteAsync(await transform(item));
+                await bufferChannel.Writer.WriteAsync(await transform(item));
             }
 
-            channel.Writer.Complete();
+            bufferChannel.Writer.Complete();
         });
 
-        return channel.Reader;
+        return bufferChannel.Reader;
     }
 
-    static ChannelReader<T>[] Split<T>(ChannelReader<T> ch, int n)
+    public static async Task ForEach<TRead>(this ChannelReader<TRead> source, Action<TRead> action)
     {
-        var outputs = new Channel<T>[n];
+        await foreach (var item in source.ReadAllAsync())
+        {
+            action(item);
+        }
+    }
 
-        for (int i = 0; i < n; i++)
-            outputs[i] = Channel.CreateUnbounded<T>();
+    static ChannelReader<T>[] Split<T>(ChannelReader<T> channel, int n)
+    {
+        var outputs = Enumerable.Range(0, n).Select(_ => Channel.CreateUnbounded<T>()).ToArray();
 
         Task.Run(async () =>
         {
             var index = 0;
-            await foreach (var item in ch.ReadAllAsync())
+            await foreach (var item in channel.ReadAllAsync())
             {
                 await outputs[index].Writer.WriteAsync(item);
                 index = (index + 1) % n;
             }
 
-            foreach (var ch in outputs)
-                ch.Writer.Complete();
+            foreach (var output in outputs)
+                output.Writer.Complete();
         });
 
-        return outputs.Select(ch => ch.Reader).ToArray();
+        return outputs.Select(output => output.Reader).ToArray();
     }
 
     static ChannelReader<T> Merge<T>(params ChannelReader<T>[] inputs)

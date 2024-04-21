@@ -1,13 +1,26 @@
 ﻿using System.CommandLine;
+using System.Threading.Channels;
 using Console;
+using Open.ChannelExtensions;
 using static Console.Extensions.ChannelExtensions;
 
 var gettingStarted = new Command("gt", "Getting started demo");
 gettingStarted.SetHandler(async _ =>
 {
+    // var pipeline = Source(Generate(1, 2, 3));
+
+    // var pipeline = Source(GenerateRange(1..100));
+
+    // var pipeline = Source(GenerateRange(1..10))
+    //     .CustomPipe(x => x*x);
+
+    // var pipeline = Source(GenerateRange(1..10))
+    //     .CustomPipe(x => (item: x, square: x * x))
+    //     .CustomPipe(x => $"{x.item,2}^2 = {x.square,4}");
+
     var pipeline = Source(GenerateRange(1..10))
-        .CustomPipe(x => (item: x, square: x * x))
-        .CustomPipeAsync(
+        .Pipe(x => (item: x, square: x * x))
+        .PipeAsync(
             maxConcurrency: 2,
             async x =>
             {
@@ -16,12 +29,9 @@ gettingStarted.SetHandler(async _ =>
                 return x;
             }
         )
-        .CustomPipe(x => $"{x.item}^{x.item} = {x.square}");
+        .Pipe(x => $"{x.item,2}^2 = {x.square,4}");
 
-    await foreach (var item in pipeline.ReadAllAsync())
-    {
-        System.Console.WriteLine(item);
-    }
+    await pipeline.ForEach(System.Console.WriteLine);
 });
 
 var pipeline1 = new Command("p1", "Runs pipeline based on custom implementation");

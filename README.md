@@ -44,6 +44,8 @@ public class ProcessorChannel : IBackgroundProcessor
 }
 ```
 
+![producer-consumer](/assets/producer-consumer.png)
+
 ## Demo
 
 ```bash

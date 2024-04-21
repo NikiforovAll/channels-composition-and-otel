@@ -33,7 +33,9 @@ await foreach (var item in pipeline.ReadAllAsync())
 {
     System.Console.WriteLine(item);
 }
+```
 
+```csharp
 public static class CustomSteps
 {
     private const int MinDelay = 500;
