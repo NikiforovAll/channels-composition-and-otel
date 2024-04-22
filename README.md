@@ -1,6 +1,6 @@
-# System.Threading.Channels Composition and OpenTelemetry
+# System.Threading.Channels Composition and OpenTelemetry. Job Offloading Pattern
 
-The project demonstrates how to build an in-memory pipeline that allows to offload long-running tasks. As result, we have an improve user experience because the result is returned as soon as a task is scheduled.
+The project demonstrates how to build an in-memory pipeline that allows to offload long-running tasks. As a result, we have an improved user experience because the result is returned as soon as a task is scheduled.
 
 ```csharp
 app.MapPost(
